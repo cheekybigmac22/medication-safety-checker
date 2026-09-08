@@ -6,6 +6,396 @@
 // ==================================================
 
 const medications = {
+
+    // =========================
+    // PAIN / FEVER
+    // =========================
+
+    "acetaminophen": ["acetaminophen"],
+    "tylenol": ["acetaminophen"],
+    "panadol": ["acetaminophen"],
+    "paracetamol": ["acetaminophen"],
+
+    "ibuprofen": ["ibuprofen"],
+    "advil": ["ibuprofen"],
+    "motrin": ["ibuprofen"],
+    "midol": ["ibuprofen"],
+
+    "naproxen": ["naproxen"],
+    "aleve": ["naproxen"],
+
+    "aspirin": ["aspirin"],
+    "bayer aspirin": ["aspirin"],
+    "ecotrin": ["aspirin"],
+
+    // =========================
+    // ALLERGY / ANTIHISTAMINES
+    // =========================
+
+    "diphenhydramine": ["diphenhydramine"],
+    "benadryl": ["diphenhydramine"],
+    "unisom sleepgels": ["diphenhydramine"],
+
+    "doxylamine": ["doxylamine"],
+    "unisom": ["doxylamine"],
+
+    "loratadine": ["loratadine"],
+    "claritin": ["loratadine"],
+    "alavert": ["loratadine"],
+
+    "cetirizine": ["cetirizine"],
+    "zyrtec": ["cetirizine"],
+
+    "levocetirizine": ["levocetirizine"],
+    "xyzal": ["levocetirizine"],
+
+    "fexofenadine": ["fexofenadine"],
+    "allegra": ["fexofenadine"],
+
+    "chlorpheniramine": ["chlorpheniramine"],
+
+    "hydroxyzine": ["hydroxyzine"],
+    "vistaril": ["hydroxyzine"],
+    "atarax": ["hydroxyzine"],
+
+    // =========================
+    // COUGH / COLD
+    // =========================
+
+    "dextromethorphan": ["dextromethorphan"],
+    "delsym": ["dextromethorphan"],
+    "robitussin dm": ["dextromethorphan", "guaifenesin"],
+
+    "guaifenesin": ["guaifenesin"],
+    "mucinex": ["guaifenesin"],
+
+    "pseudoephedrine": ["pseudoephedrine"],
+    "sudafed": ["pseudoephedrine"],
+
+    "phenylephrine": ["phenylephrine"],
+    "sudafed pe": ["phenylephrine"],
+
+    "nyquil": [
+        "acetaminophen",
+        "dextromethorphan",
+        "doxylamine"
+    ],
+
+    "dayquil": [
+        "acetaminophen",
+        "dextromethorphan",
+        "phenylephrine"
+    ],
+
+    // =========================
+    // STOMACH / DIGESTIVE
+    // =========================
+
+    "calcium carbonate": ["calcium carbonate"],
+    "tums": ["calcium carbonate"],
+
+    "famotidine": ["famotidine"],
+    "pepcid": ["famotidine"],
+
+    "omeprazole": ["omeprazole"],
+    "prilosec": ["omeprazole"],
+
+    "esomeprazole": ["esomeprazole"],
+    "nexium": ["esomeprazole"],
+
+    "lansoprazole": ["lansoprazole"],
+    "prevacid": ["lansoprazole"],
+
+    "pantoprazole": ["pantoprazole"],
+    "protonix": ["pantoprazole"],
+
+    "cimetidine": ["cimetidine"],
+    "tagamet": ["cimetidine"],
+
+    "bismuth subsalicylate": ["bismuth subsalicylate"],
+    "pepto bismol": ["bismuth subsalicylate"],
+
+    "loperamide": ["loperamide"],
+    "imodium": ["loperamide"],
+
+    "polyethylene glycol": ["polyethylene glycol"],
+    "miralax": ["polyethylene glycol"],
+
+    "docusate": ["docusate"],
+    "colace": ["docusate"],
+
+    // =========================
+    // ANTIBIOTICS
+    // =========================
+
+    "amoxicillin": ["amoxicillin"],
+    "amoxil": ["amoxicillin"],
+
+    "amoxicillin clavulanate": [
+        "amoxicillin",
+        "clavulanate"
+    ],
+    "augmentin": [
+        "amoxicillin",
+        "clavulanate"
+    ],
+
+    "azithromycin": ["azithromycin"],
+    "zithromax": ["azithromycin"],
+    "z pak": ["azithromycin"],
+
+    "cephalexin": ["cephalexin"],
+    "keflex": ["cephalexin"],
+
+    "doxycycline": ["doxycycline"],
+    "vibramycin": ["doxycycline"],
+
+    "ciprofloxacin": ["ciprofloxacin"],
+    "cipro": ["ciprofloxacin"],
+
+    "clindamycin": ["clindamycin"],
+    "cleocin": ["clindamycin"],
+
+    "metronidazole": ["metronidazole"],
+    "flagyl": ["metronidazole"],
+
+    "penicillin": ["penicillin"],
+    "penicillin v": ["penicillin"],
+
+    "trimethoprim sulfamethoxazole": [
+        "trimethoprim",
+        "sulfamethoxazole"
+    ],
+    "bactrim": [
+        "trimethoprim",
+        "sulfamethoxazole"
+    ],
+
+    // =========================
+    // BLOOD PRESSURE / HEART
+    // =========================
+
+    "lisinopril": ["lisinopril"],
+    "zestril": ["lisinopril"],
+    "prinivil": ["lisinopril"],
+
+    "losartan": ["losartan"],
+    "cozaar": ["losartan"],
+
+    "valsartan": ["valsartan"],
+    "diovan": ["valsartan"],
+
+    "irbesartan": ["irbesartan"],
+    "avapro": ["irbesartan"],
+
+    "amlodipine": ["amlodipine"],
+    "norvasc": ["amlodipine"],
+
+    "diltiazem": ["diltiazem"],
+    "cardizem": ["diltiazem"],
+
+    "verapamil": ["verapamil"],
+    "calan": ["verapamil"],
+
+    "metoprolol": ["metoprolol"],
+    "lopressor": ["metoprolol"],
+    "toprol xl": ["metoprolol"],
+
+    "atenolol": ["atenolol"],
+    "tenormin": ["atenolol"],
+
+    "propranolol": ["propranolol"],
+    "inderal": ["propranolol"],
+
+    "hydrochlorothiazide": ["hydrochlorothiazide"],
+    "microzide": ["hydrochlorothiazide"],
+
+    "furosemide": ["furosemide"],
+    "lasix": ["furosemide"],
+
+    // =========================
+    // CHOLESTEROL
+    // =========================
+
+    "atorvastatin": ["atorvastatin"],
+    "lipitor": ["atorvastatin"],
+
+    "simvastatin": ["simvastatin"],
+    "zocor": ["simvastatin"],
+
+    "rosuvastatin": ["rosuvastatin"],
+    "crestor": ["rosuvastatin"],
+
+    "pravastatin": ["pravastatin"],
+    "pravachol": ["pravastatin"],
+
+    // =========================
+    // BLOOD THINNERS
+    // =========================
+
+    "warfarin": ["warfarin"],
+    "coumadin": ["warfarin"],
+    "jantoven": ["warfarin"],
+
+    "apixaban": ["apixaban"],
+    "eliquis": ["apixaban"],
+
+    "rivaroxaban": ["rivaroxaban"],
+    "xarelto": ["rivaroxaban"],
+
+    "dabigatran": ["dabigatran"],
+    "pradaxa": ["dabigatran"],
+
+    "clopidogrel": ["clopidogrel"],
+    "plavix": ["clopidogrel"],
+
+    // =========================
+    // DIABETES
+    // =========================
+
+    "metformin": ["metformin"],
+    "glucophage": ["metformin"],
+
+    "glipizide": ["glipizide"],
+    "glucotrol": ["glipizide"],
+
+    "glyburide": ["glyburide"],
+    "diabeta": ["glyburide"],
+
+    "sitagliptin": ["sitagliptin"],
+    "januvia": ["sitagliptin"],
+
+    "empagliflozin": ["empagliflozin"],
+    "jardiance": ["empagliflozin"],
+
+    // =========================
+    // THYROID
+    // =========================
+
+    "levothyroxine": ["levothyroxine"],
+    "synthroid": ["levothyroxine"],
+    "levoxyl": ["levothyroxine"],
+
+    "liothyronine": ["liothyronine"],
+    "cytomel": ["liothyronine"],
+
+    // =========================
+    // ANTIDEPRESSANTS
+    // =========================
+
+    "sertraline": ["sertraline"],
+    "zoloft": ["sertraline"],
+
+    "fluoxetine": ["fluoxetine"],
+    "prozac": ["fluoxetine"],
+
+    "escitalopram": ["escitalopram"],
+    "lexapro": ["escitalopram"],
+
+    "citalopram": ["citalopram"],
+    "celexa": ["citalopram"],
+
+    "paroxetine": ["paroxetine"],
+    "paxil": ["paroxetine"],
+
+    "venlafaxine": ["venlafaxine"],
+    "effexor": ["venlafaxine"],
+
+    "duloxetine": ["duloxetine"],
+    "cymbalta": ["duloxetine"],
+
+    "bupropion": ["bupropion"],
+    "wellbutrin": ["bupropion"],
+
+    "trazodone": ["trazodone"],
+    "desyrel": ["trazodone"],
+
+    // =========================
+    // PAIN / NERVE MEDICATIONS
+    // =========================
+
+    "tramadol": ["tramadol"],
+    "ultram": ["tramadol"],
+
+    "gabapentin": ["gabapentin"],
+    "neurontin": ["gabapentin"],
+
+    "pregabalin": ["pregabalin"],
+    "lyrica": ["pregabalin"],
+
+    "cyclobenzaprine": ["cyclobenzaprine"],
+    "flexeril": ["cyclobenzaprine"],
+
+    "tizanidine": ["tizanidine"],
+    "zanaflex": ["tizanidine"],
+
+    "baclofen": ["baclofen"],
+    "lioresal": ["baclofen"],
+
+    // =========================
+    // ASTHMA / ALLERGIES
+    // =========================
+
+    "albuterol": ["albuterol"],
+    "ventolin": ["albuterol"],
+    "proair": ["albuterol"],
+
+    "fluticasone": ["fluticasone"],
+    "flonase": ["fluticasone"],
+
+    "budesonide": ["budesonide"],
+    "pulmicort": ["budesonide"],
+
+    "montelukast": ["montelukast"],
+    "singulair": ["montelukast"],
+
+    // =========================
+    // STEROIDS / ANTI-INFLAMMATORY
+    // =========================
+
+    "prednisone": ["prednisone"],
+    "rayos": ["prednisone"],
+
+    "prednisolone": ["prednisolone"],
+    "orapred": ["prednisolone"],
+
+    "methylprednisolone": ["methylprednisolone"],
+    "medrol": ["methylprednisolone"],
+
+    "dexamethasone": ["dexamethasone"],
+    "decadron": ["dexamethasone"],
+
+    // =========================
+    // COMMON SKIN MEDICATIONS
+    // =========================
+
+    "hydrocortisone": ["hydrocortisone"],
+    "clotrimazole": ["clotrimazole"],
+    "lotrimin": ["clotrimazole"],
+
+    "terbinafine": ["terbinafine"],
+    "lamisil": ["terbinafine"],
+
+    // =========================
+    // COMMON OTHER MEDICATIONS
+    // =========================
+
+    "ondansetron": ["ondansetron"],
+    "zofran": ["ondansetron"],
+
+    "tamsulosin": ["tamsulosin"],
+    "flomax": ["tamsulosin"],
+
+    "finasteride": ["finasteride"],
+    "propecia": ["finasteride"],
+    "proscar": ["finasteride"],
+
+    "sildenafil": ["sildenafil"],
+    "viagra": ["sildenafil"],
+
+    "tadalafil": ["tadalafil"],
+    "cialis": ["tadalafil"]
+};
     "tylenol": ["acetaminophen"],
     "acetaminophen": ["acetaminophen"],
 
