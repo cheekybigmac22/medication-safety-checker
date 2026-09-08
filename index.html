@@ -3,187 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medication & Substance Safety Checker</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+    <title>Medication Safety Checker</title>
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f5f7fb;
-            color: #172033;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #667085;
-            margin-bottom: 30px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 18px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
-        }
-
-        input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #d0d5dd;
-            border-radius: 10px;
-            font-size: 16px;
-            outline: none;
-        }
-
-        input:focus {
-            border-color: #667eea;
-        }
-
-        button {
-            border: none;
-            border-radius: 10px;
-            padding: 12px 18px;
-            cursor: pointer;
-            font-size: 15px;
-        }
-
-        .add-btn {
-            margin-top: 12px;
-            background: #172033;
-            color: white;
-        }
-
-        .clear-btn {
-            background: #eee;
-            margin-top: 10px;
-        }
-
-        .chips {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .chip {
-            background: #eef2ff;
-            padding: 8px 12px;
-            border-radius: 20px;
-        }
-
-        .chip button {
-            padding: 0;
-            margin-left: 7px;
-            background: none;
-            color: #667085;
-        }
-
-        .spectrum {
-            height: 35px;
-            border-radius: 20px;
-            background: linear-gradient(
-                to right,
-                #dc2626 0%,
-                #f97316 32%,
-                #facc15 65%,
-                #16a34a 100%
-            );
-            position: relative;
-            margin: 25px 0 10px;
-        }
-
-        .marker {
-            position: absolute;
-            top: -8px;
-            width: 8px;
-            height: 51px;
-            background: #111827;
-            border-radius: 5px;
-            transform: translateX(-50%);
-            transition: left 0.4s ease;
-        }
-
-        .labels {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .result {
-            padding: 20px;
-            border-radius: 14px;
-            margin-top: 20px;
-            background: #f2f4f7;
-        }
-
-        .high {
-            border: 3px solid #dc2626;
-            background: #fff1f2;
-        }
-
-        .caution {
-            border: 3px solid #f97316;
-            background: #fff7ed;
-        }
-
-        .unknown {
-            border: 3px solid #eab308;
-            background: #fefce8;
-        }
-
-        .green {
-            border: 3px solid #16a34a;
-            background: #f0fdf4;
-        }
-
-        .warning {
-            font-size: 24px;
-            font-weight: bold;
-            color: #b91c1c;
-        }
-
-        .ingredients {
-            color: #475467;
-        }
-
-        .emergency {
-            background: #fff1f2;
-            border-left: 5px solid #dc2626;
-        }
-
-        .small {
-            font-size: 13px;
-            color: #667085;
-            line-height: 1.5;
-        }
-    </style>
+    <!-- Our separate CSS file -->
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <div class="container">
 
-    <h1>Medication & Substance Safety Checker</h1>
+    <h1>Medication Safety Checker</h1>
 
     <p class="subtitle">
-        Check medications and substances for documented interaction warnings.
+        Check medications for documented interaction warnings.
     </p>
 
     <div class="card">
@@ -192,10 +26,11 @@
             id="search"
             type="text"
             placeholder="Try Tylenol, NyQuil, ibuprofen..."
+            autocomplete="off"
         >
 
         <button class="add-btn" onclick="addItem()">
-            Add item
+            Add medication
         </button>
 
         <div id="chips" class="chips"></div>
@@ -206,44 +41,64 @@
 
     </div>
 
+
     <div class="card">
 
         <h2>Risk spectrum</h2>
 
         <div class="spectrum">
-            <div id="marker" class="marker" style="left: 94%;"></div>
+
+            <div
+                id="marker"
+                class="marker"
+                style="left: 65%;"
+            ></div>
+
         </div>
 
         <div class="labels">
             <span>HIGH CONCERN</span>
             <span>CAUTION</span>
-            <span>LOWER CONCERN</span>
+            <span>INSUFFICIENT DATA</span>
             <span>NO DOCUMENTED INTERACTION</span>
         </div>
 
         <div id="result" class="result">
-            Add at least two items to check them.
+
+            <h3>Ready to check</h3>
+
+            <p>
+                Add two or more medications to check
+                for documented interaction warnings.
+            </p>
+
         </div>
 
     </div>
+
 
     <div class="card">
 
         <h2>Active ingredients</h2>
 
-        <div id="ingredients" class="ingredients">
-            No items selected.
+        <div
+            id="ingredients"
+            class="ingredients"
+        >
+            No medications selected.
         </div>
 
     </div>
+
 
     <div class="card emergency">
 
         <h2>⚠️ Emergency</h2>
 
         <p>
-            If someone has trouble breathing, has a seizure, becomes unconscious,
-            or cannot be awakened, call <strong>911</strong> immediately.
+            If someone has trouble breathing, has a seizure,
+            becomes unconscious, or cannot be awakened,
+            call <strong>911</strong> immediately.
         </p>
 
         <p>
@@ -253,471 +108,28 @@
 
     </div>
 
+
     <div class="card">
 
         <p class="small">
-            Important: This is an educational prototype, not a medical diagnosis
-            or a substitute for a doctor or pharmacist. "No documented
-            interaction found" does not mean a combination is guaranteed to be safe.
+
+            <strong>Important:</strong>
+            This website is an educational prototype and is
+            not a medical diagnosis or a substitute for a
+            doctor or pharmacist.
+
+            "No documented interaction found" does not mean
+            a combination is guaranteed to be safe.
+
         </p>
 
     </div>
 
 </div>
 
-<script>
 
-const medications = {
-
-    "tylenol": ["acetaminophen"],
-    "acetaminophen": ["acetaminophen"],
-
-    "advil": ["ibuprofen"],
-    "motrin": ["ibuprofen"],
-    "ibuprofen": ["ibuprofen"],
-
-    "aleve": ["naproxen"],
-    "naproxen": ["naproxen"],
-
-    "aspirin": ["aspirin"],
-    "bayer aspirin": ["aspirin"],
-
-    "benadryl": ["diphenhydramine"],
-    "diphenhydramine": ["diphenhydramine"],
-
-    "unisom": ["doxylamine"],
-    "doxylamine": ["doxylamine"],
-
-    "delsym": ["dextromethorphan"],
-    "dextromethorphan": ["dextromethorphan"],
-
-    "nyquil": [
-        "acetaminophen",
-        "dextromethorphan",
-        "doxylamine"
-    ],
-
-    "mucinex": ["guaifenesin"],
-    "guaifenesin": ["guaifenesin"],
-
-    "claritin": ["loratadine"],
-    "loratadine": ["loratadine"],
-
-    "zyrtec": ["cetirizine"],
-    "cetirizine": ["cetirizine"],
-
-    "sudafed": ["pseudoephedrine"],
-    "pseudoephedrine": ["pseudoephedrine"],
-
-    "sudafed pe": ["phenylephrine"],
-    "phenylephrine": ["phenylephrine"],
-
-    "pepcid": ["famotidine"],
-    "famotidine": ["famotidine"],
-
-    "prilosec": ["omeprazole"],
-    "omeprazole": ["omeprazole"],
-
-    "tums": ["calcium carbonate"],
-    "calcium carbonate": ["calcium carbonate"],
-
-    "amoxicillin": ["amoxicillin"],
-    "amoxil": ["amoxicillin"],
-
-    "azithromycin": ["azithromycin"],
-    "zithromax": ["azithromycin"],
-
-    "metformin": ["metformin"],
-    "glucophage": ["metformin"],
-
-    "lisinopril": ["lisinopril"],
-    "zestril": ["lisinopril"],
-    "prinivil": ["lisinopril"],
-
-    "losartan": ["losartan"],
-    "cozaar": ["losartan"],
-
-    "amlodipine": ["amlodipine"],
-    "norvasc": ["amlodipine"],
-
-    "atorvastatin": ["atorvastatin"],
-    "lipitor": ["atorvastatin"],
-
-    "levothyroxine": ["levothyroxine"],
-    "synthroid": ["levothyroxine"],
-
-    "sertraline": ["sertraline"],
-    "zoloft": ["sertraline"],
-
-    "fluoxetine": ["fluoxetine"],
-    "prozac": ["fluoxetine"],
-
-    "escitalopram": ["escitalopram"],
-    "lexapro": ["escitalopram"],
-
-    "bupropion": ["bupropion"],
-    "wellbutrin": ["bupropion"],
-
-    "warfarin": ["warfarin"],
-    "coumadin": ["warfarin"],
-    "jantoven": ["warfarin"],
-
-    "clopidogrel": ["clopidogrel"],
-    "plavix": ["clopidogrel"],
-
-    "tramadol": ["tramadol"],
-    "ultram": ["tramadol"],
-
-    "cyclobenzaprine": ["cyclobenzaprine"],
-    "flexeril": ["cyclobenzaprine"],
-
-    "gabapentin": ["gabapentin"],
-    "neurontin": ["gabapentin"],
-
-    "hydroxyzine": ["hydroxyzine"],
-    "vistaril": ["hydroxyzine"],
-    "atarax": ["hydroxyzine"],
-
-    "albuterol": ["albuterol"],
-    "ventolin": ["albuterol"],
-
-    "fluticasone": ["fluticasone"],
-    "flonase": ["fluticasone"],
-
-    "montelukast": ["montelukast"],
-    "singulair": ["montelukast"],
-
-    "prednisone": ["prednisone"],
-    "rayos": ["prednisone"],
-
-    "alcohol": ["alcohol"],
-    "cannabis": ["cannabis"],
-    "weed": ["cannabis"],
-    "marijuana": ["cannabis"],
-    "thc": ["cannabis"]
-};
-
-
-const interactions = {
-
-    "acetaminophen|warfarin": {
-        level: 2,
-        message: "This combination can require additional caution because acetaminophen may affect warfarin's anticoagulant effect."
-    },
-
-    "ibuprofen|warfarin": {
-        level: 4,
-        message: "NSAIDs such as ibuprofen can increase bleeding risk when combined with warfarin."
-    },
-
-    "aspirin|warfarin": {
-        level: 4,
-        message: "Aspirin and warfarin can increase bleeding risk when used together."
-    },
-
-    "ibuprofen|lisinopril": {
-        level: 2,
-        message: "NSAIDs such as ibuprofen can interfere with blood-pressure treatment and may affect kidney function."
-    },
-
-    "naproxen|lisinopril": {
-        level: 2,
-        message: "NSAIDs such as naproxen can interfere with blood-pressure treatment and may affect kidney function."
-    },
-
-    "calcium carbonate|levothyroxine": {
-        level: 2,
-        message: "Calcium can reduce absorption of levothyroxine when taken too closely together."
-    },
-
-    "omeprazole|clopidogrel": {
-        level: 2,
-        message: "Omeprazole can affect activation of clopidogrel."
-    },
-
-    "fluoxetine|tramadol": {
-        level: 4,
-        message: "This combination can increase the risk of serious serotonin-related effects and other adverse effects."
-    },
-
-    "sertraline|tramadol": {
-        level: 4,
-        message: "This combination can increase the risk of serious serotonin-related effects and other adverse effects."
-    },
-
-    "escitalopram|tramadol": {
-        level: 4,
-        message: "This combination can increase the risk of serious serotonin-related effects and other adverse effects."
-    },
-
-    "diphenhydramine|doxylamine": {
-        level: 4,
-        message: "Both can cause significant drowsiness and other effects from combining medicines with similar properties."
-    },
-
-    "alcohol|nyquil": {
-        level: 4,
-        message: "Alcohol can add to the sedating effects of ingredients in NyQuil and can increase impairment and other risks."
-    },
-
-    "alcohol|diphenhydramine": {
-        level: 4,
-        message: "Alcohol can increase the sedating and impairing effects of diphenhydramine."
-    },
-
-    "alcohol|doxylamine": {
-        level: 4,
-        message: "Alcohol can increase the sedating and impairing effects of doxylamine."
-    },
-
-    "alcohol|tramadol": {
-        level: 4,
-        message: "Alcohol and tramadol can have additive effects that increase serious safety concerns."
-    },
-
-    "alcohol|hydroxyzine": {
-        level: 4,
-        message: "Alcohol can increase the sedating effects of hydroxyzine."
-    },
-
-    "cannabis|alcohol": {
-        level: 4,
-        message: "Using cannabis and alcohol together can increase impairment compared with either substance alone."
-    },
-
-    "cannabis|diphenhydramine": {
-        level: 2,
-        message: "Both can cause impairment and drowsiness, which may be increased when combined."
-    },
-
-    "cannabis|doxylamine": {
-        level: 2,
-        message: "Both can cause impairment and drowsiness, which may be increased when combined."
-    },
-
-    "cannabis|hydroxyzine": {
-        level: 2,
-        message: "Both can cause impairment and drowsiness, which may be increased when combined."
-    },
-
-    "cannabis|tramadol": {
-        level: 2,
-        message: "Combining substances that can impair alertness can increase safety concerns."
-    }
-};
-
-
-let selected = [];
-
-
-function normalize(text) {
-    return text.trim().toLowerCase();
-}
-
-
-function addItem() {
-
-    const input = document.getElementById("search");
-    const value = normalize(input.value);
-
-    if (!value) return;
-
-    if (!medications[value]) {
-
-        alert(
-            "This item isn't in the current database yet. " +
-            "Unknown items are not treated as safe."
-        );
-
-        return;
-    }
-
-    if (selected.includes(value)) {
-        input.value = "";
-        return;
-    }
-
-    selected.push(value);
-    input.value = "";
-
-    update();
-}
-
-
-function removeItem(index) {
-
-    selected.splice(index, 1);
-    update();
-
-}
-
-
-function clearAll() {
-
-    selected = [];
-    update();
-
-}
-
-
-function getIngredients() {
-
-    let result = [];
-
-    selected.forEach(item => {
-
-        medications[item].forEach(ingredient => {
-
-            if (!result.includes(ingredient)) {
-                result.push(ingredient);
-            }
-
-        });
-
-    });
-
-    return result;
-}
-
-
-function getKey(a, b) {
-
-    return [a, b].sort().join("|");
-
-}
-
-
-function update() {
-
-    const chips = document.getElementById("chips");
-    const ingredientsBox = document.getElementById("ingredients");
-    const result = document.getElementById("result");
-    const marker = document.getElementById("marker");
-
-    chips.innerHTML = "";
-
-    selected.forEach((item, index) => {
-
-        const chip = document.createElement("div");
-
-        chip.className = "chip";
-
-        chip.innerHTML =
-            item +
-            ` <button onclick="removeItem(${index})">✕</button>`;
-
-        chips.appendChild(chip);
-
-    });
-
-
-    const ingredients = getIngredients();
-
-    if (ingredients.length === 0) {
-
-        ingredientsBox.innerHTML = "No items selected.";
-
-    } else {
-
-        ingredientsBox.innerHTML =
-            ingredients.join(", ");
-
-    }
-
-
-    if (selected.length < 2) {
-
-        result.className = "result";
-
-        result.innerHTML =
-            "Add at least two items to check them.";
-
-        marker.style.left = "94%";
-
-        return;
-
-    }
-
-
-    let highestLevel = 0;
-    let messages = [];
-
-
-    for (let i = 0; i < ingredients.length; i++) {
-
-        for (let j = i + 1; j < ingredients.length; j++) {
-
-            const key = getKey(
-                ingredients[i],
-                ingredients[j]
-            );
-
-            if (interactions[key]) {
-
-                const interaction = interactions[key];
-
-                if (interaction.level > highestLevel) {
-                    highestLevel = interaction.level;
-                }
-
-                messages.push(interaction.message);
-
-            }
-
-        }
-
-    }
-
-
-    if (highestLevel === 4) {
-
-        result.className = "result high";
-
-        result.innerHTML =
-            `<div class="warning">⚠️ NOT A GOOD MIX</div>
-             <p>${messages.join("</p><p>")}</p>
-             <p class="small">
-             This warning is based on the interaction information
-             included in this prototype.
-             </p>`;
-
-        marker.style.left = "4%";
-
-    }
-
-    else if (highestLevel === 2) {
-
-        result.className = "result caution";
-
-        result.innerHTML =
-            `<h2>⚠️ CAUTION</h2>
-             <p>${messages.join("</p><p>")}</p>`;
-
-        marker.style.left = "43%";
-
-    }
-
-    else {
-
-        result.className = "result unknown";
-
-        result.innerHTML =
-            `<h2>❓ INSUFFICIENT DATA</h2>
-             <p>
-             No documented interaction was found in the
-             current database for this combination.
-             </p>
-             <p>
-             This does NOT mean the combination is safe.
-             </p>`;
-
-        marker.style.left = "65%";
-
-    }
-
-}
-
-</script>
+<!-- Our separate JavaScript file -->
+<script src="script.js"></script>
 
 </body>
 </html>
