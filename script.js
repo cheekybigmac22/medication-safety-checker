@@ -1,9 +1,9 @@
 // Medication Safety Checker
 // Educational prototype — not a medical diagnosis.
 
-// --------------------------------------------------
+// ==================================================
 // MEDICATION DATABASE
-// --------------------------------------------------
+// ==================================================
 
 const medications = {
     "tylenol": ["acetaminophen"],
@@ -129,9 +129,9 @@ const medications = {
 };
 
 
-// --------------------------------------------------
-// INTERACTION INFORMATION
-// --------------------------------------------------
+// ==================================================
+// INTERACTIONS
+// ==================================================
 
 const interactions = {
 
@@ -203,16 +203,16 @@ const interactions = {
 };
 
 
-// --------------------------------------------------
+// ==================================================
 // APP STATE
-// --------------------------------------------------
+// ==================================================
 
 let selected = [];
 
 
-// --------------------------------------------------
-// HELPERS
-// --------------------------------------------------
+// ==================================================
+// HELPER FUNCTIONS
+// ==================================================
 
 function normalize(text) {
     return text
@@ -249,41 +249,20 @@ function getIngredients() {
 }
 
 
-// --------------------------------------------------
+// ==================================================
 // AUTOCOMPLETE
-// --------------------------------------------------
+// ==================================================
 
 function setupAutocomplete() {
 
     const input = document.getElementById("search");
+    const dropdown = document.getElementById("autocomplete");
 
-    if (!input) return;
+    if (!input || !dropdown) {
+        return;
+    }
 
-    const wrapper = input.parentElement;
-
-    wrapper.style.position = "relative";
-
-    const dropdown = document.createElement("div");
-
-    dropdown.id = "autocomplete";
-
-    dropdown.style.position = "absolute";
-    dropdown.style.top = "100%";
-    dropdown.style.left = "0";
-    dropdown.style.right = "0";
-    dropdown.style.background = "#ffffff";
-    dropdown.style.border = "1px solid #ddd";
-    dropdown.style.borderRadius = "10px";
-    dropdown.style.marginTop = "6px";
-    dropdown.style.overflow = "hidden";
-    dropdown.style.zIndex = "1000";
-    dropdown.style.display = "none";
-    dropdown.style.boxShadow = "0 8px 20px rgba(0,0,0,0.12)";
-
-    wrapper.appendChild(dropdown);
-
-
-    input.addEventListener("input", () => {
+    input.addEventListener("input", function () {
 
         const value = normalize(input.value);
 
@@ -294,50 +273,35 @@ function setupAutocomplete() {
             return;
         }
 
-
         const matches = Object.keys(medications)
             .filter(name => name.includes(value))
             .slice(0, 8);
-
 
         if (matches.length === 0) {
             dropdown.style.display = "none";
             return;
         }
 
-
         matches.forEach(name => {
 
-            const option =
-                document.createElement("div");
+            const option = document.createElement("div");
 
-            option.style.padding = "12px 14px";
-            option.style.cursor = "pointer";
-            option.style.borderBottom = "1px solid #eee";
+            option.className = "autocomplete-item";
+
+            const ingredientText =
+                medications[name].join(", ");
 
             option.innerHTML = `
-                <strong>${name}</strong>
-                <div style="
-                    font-size:12px;
-                    color:#777;
-                    margin-top:3px;
-                ">
-                    Active ingredient:
-                    ${medications[name].join(", ")}
+                <div class="autocomplete-name">
+                    ${name}
+                </div>
+
+                <div class="autocomplete-ingredient">
+                    Active ingredient: ${ingredientText}
                 </div>
             `;
 
-
-            option.addEventListener("mouseenter", () => {
-                option.style.background = "#f5f5f5";
-            });
-
-            option.addEventListener("mouseleave", () => {
-                option.style.background = "#ffffff";
-            });
-
-
-            option.addEventListener("click", () => {
+            option.addEventListener("click", function () {
 
                 input.value = name;
 
@@ -347,18 +311,16 @@ function setupAutocomplete() {
 
             });
 
-
             dropdown.appendChild(option);
 
         });
-
 
         dropdown.style.display = "block";
 
     });
 
 
-    document.addEventListener("click", event => {
+    document.addEventListener("click", function (event) {
 
         if (
             event.target !== input &&
@@ -372,18 +334,23 @@ function setupAutocomplete() {
 }
 
 
-// --------------------------------------------------
-// ADD / REMOVE
-// --------------------------------------------------
+// ==================================================
+// ADD MEDICATION
+// ==================================================
 
 function addItem() {
 
     const input = document.getElementById("search");
 
+    if (!input) {
+        return;
+    }
+
     const value = normalize(input.value);
 
-    if (!value) return;
-
+    if (!value) {
+        return;
+    }
 
     if (!medications[value]) {
 
@@ -397,7 +364,6 @@ function addItem() {
         return;
     }
 
-
     if (selected.includes(value)) {
 
         input.value = "";
@@ -405,15 +371,24 @@ function addItem() {
         return;
     }
 
-
     selected.push(value);
 
     input.value = "";
+
+    const dropdown = document.getElementById("autocomplete");
+
+    if (dropdown) {
+        dropdown.style.display = "none";
+    }
 
     update();
 
 }
 
+
+// ==================================================
+// REMOVE MEDICATION
+// ==================================================
 
 function removeItem(index) {
 
@@ -424,6 +399,10 @@ function removeItem(index) {
 }
 
 
+// ==================================================
+// CLEAR EVERYTHING
+// ==================================================
+
 function clearAll() {
 
     selected = [];
@@ -433,34 +412,34 @@ function clearAll() {
 }
 
 
-// --------------------------------------------------
-// DISPLAY
-// --------------------------------------------------
+// ==================================================
+// UPDATE WEBSITE
+// ==================================================
 
 function update() {
 
-    const chips =
-        document.getElementById("chips");
-
+    const chips = document.getElementById("chips");
     const ingredientsBox =
         document.getElementById("ingredients");
-
     const result =
         document.getElementById("result");
-
     const marker =
         document.getElementById("marker");
 
+    if (!chips || !ingredientsBox || !result || !marker) {
+        return;
+    }
 
     chips.innerHTML = "";
 
 
-    // Selected medication chips
+    // --------------------------------------------------
+    // MEDICATION CHIPS
+    // --------------------------------------------------
 
     selected.forEach((item, index) => {
 
-        const chip =
-            document.createElement("div");
+        const chip = document.createElement("div");
 
         chip.className = "chip";
 
@@ -473,16 +452,16 @@ function update() {
     });
 
 
-    // Active ingredients
+    // --------------------------------------------------
+    // ACTIVE INGREDIENTS
+    // --------------------------------------------------
 
-    const ingredients =
-        getIngredients();
-
+    const ingredients = getIngredients();
 
     if (ingredients.length === 0) {
 
         ingredientsBox.innerHTML =
-            "No items selected.";
+            "No medications selected.";
 
     } else {
 
@@ -492,27 +471,32 @@ function update() {
     }
 
 
-    // Need at least two items
+    // --------------------------------------------------
+    // NOT ENOUGH MEDICATIONS
+    // --------------------------------------------------
 
     if (selected.length < 2) {
 
-        result.className =
-            "result";
+        result.className = "result";
 
-        result.innerHTML =
-            "Add at least two medications to check for documented interaction warnings.";
+        result.innerHTML = `
+            <h3>Ready to check</h3>
 
-        marker.style.left =
-            "94%";
+            <p>
+                Add two or more medications to check
+                for documented interaction warnings.
+            </p>
+        `;
+
+        marker.style.left = "94%";
 
         return;
-
     }
 
 
-    // --------------------------------------------------
-    // FIND HIGHEST-CONCERN INTERACTION
-    // --------------------------------------------------
+    // ==================================================
+    // CHECK INTERACTIONS
+    // ==================================================
 
     let highestLevel = 0;
 
@@ -521,17 +505,9 @@ function update() {
     const checkedPairs = new Set();
 
 
-    for (
-        let i = 0;
-        i < ingredients.length;
-        i++
-    ) {
+    for (let i = 0; i < ingredients.length; i++) {
 
-        for (
-            let j = i + 1;
-            j < ingredients.length;
-            j++
-        ) {
+        for (let j = i + 1; j < ingredients.length; j++) {
 
             const key =
                 getKey(
@@ -539,20 +515,16 @@ function update() {
                     ingredients[j]
                 );
 
-
             if (checkedPairs.has(key)) {
                 continue;
             }
 
-
             checkedPairs.add(key);
-
 
             if (interactions[key]) {
 
                 const interaction =
                     interactions[key];
-
 
                 if (
                     interaction.level >
@@ -563,7 +535,6 @@ function update() {
                         interaction.level;
 
                 }
-
 
                 if (
                     !messages.includes(
@@ -584,15 +555,14 @@ function update() {
     }
 
 
-    // --------------------------------------------------
+    // ==================================================
     // HIGH CONCERN
-    // --------------------------------------------------
+    // ==================================================
 
     if (highestLevel === 4) {
 
         result.className =
             "result high";
-
 
         result.innerHTML = `
 
@@ -606,10 +576,7 @@ function update() {
             </p>
 
             ${messages
-                .map(
-                    message =>
-                        `<p>${message}</p>`
-                )
+                .map(message => `<p>${message}</p>`)
                 .join("")}
 
             <p class="small">
@@ -619,24 +586,20 @@ function update() {
 
         `;
 
-
-        marker.style.left =
-            "4%";
+        marker.style.left = "4%";
 
         return;
-
     }
 
 
-    // --------------------------------------------------
+    // ==================================================
     // CAUTION
-    // --------------------------------------------------
+    // ==================================================
 
     if (highestLevel === 2) {
 
         result.className =
             "result caution";
-
 
         result.innerHTML = `
 
@@ -648,10 +611,7 @@ function update() {
             </p>
 
             ${messages
-                .map(
-                    message =>
-                        `<p>${message}</p>`
-                )
+                .map(message => `<p>${message}</p>`)
                 .join("")}
 
             <p class="small">
@@ -661,22 +621,18 @@ function update() {
 
         `;
 
-
-        marker.style.left =
-            "43%";
+        marker.style.left = "43%";
 
         return;
-
     }
 
 
-    // --------------------------------------------------
-    // UNKNOWN
-    // --------------------------------------------------
+    // ==================================================
+    // INSUFFICIENT DATA
+    // ==================================================
 
     result.className =
         "result unknown";
-
 
     result.innerHTML = `
 
@@ -700,44 +656,40 @@ function update() {
 
     `;
 
-
-    marker.style.left =
-        "65%";
+    marker.style.left = "65%";
 
 }
 
 
-// --------------------------------------------------
+// ==================================================
 // START APP
-// --------------------------------------------------
+// ==================================================
 
 document.addEventListener(
     "DOMContentLoaded",
-    () => {
-
-        const input =
-            document.getElementById("search");
-
+    function () {
 
         setupAutocomplete();
 
+        const input =
+            document.getElementById("search");
 
         if (input) {
 
             input.addEventListener(
                 "keydown",
-                event => {
+                function (event) {
 
                     if (event.key === "Enter") {
-
                         addItem();
-
                     }
 
                 }
             );
 
         }
+
+        update();
 
     }
 );
