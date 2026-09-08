@@ -1,4 +1,4 @@
-// Medication & Substance Safety Checker
+// Medication Safety Checker
 // Educational prototype — not a medical diagnosis.
 
 // --------------------------------------------------
@@ -132,14 +132,6 @@ const medications = {
 // --------------------------------------------------
 // INTERACTION INFORMATION
 // --------------------------------------------------
-//
-// IMPORTANT:
-// These are warning categories for the prototype.
-// They are NOT a complete clinical interaction database.
-//
-// 4 = high concern
-// 2 = caution
-//
 
 const interactions = {
 
@@ -258,17 +250,140 @@ function getIngredients() {
 
 
 // --------------------------------------------------
+// AUTOCOMPLETE
+// --------------------------------------------------
+
+function setupAutocomplete() {
+
+    const input = document.getElementById("search");
+
+    if (!input) return;
+
+    const wrapper = input.parentElement;
+
+    wrapper.style.position = "relative";
+
+    const dropdown = document.createElement("div");
+
+    dropdown.id = "autocomplete";
+
+    dropdown.style.position = "absolute";
+    dropdown.style.top = "100%";
+    dropdown.style.left = "0";
+    dropdown.style.right = "0";
+    dropdown.style.background = "#ffffff";
+    dropdown.style.border = "1px solid #ddd";
+    dropdown.style.borderRadius = "10px";
+    dropdown.style.marginTop = "6px";
+    dropdown.style.overflow = "hidden";
+    dropdown.style.zIndex = "1000";
+    dropdown.style.display = "none";
+    dropdown.style.boxShadow = "0 8px 20px rgba(0,0,0,0.12)";
+
+    wrapper.appendChild(dropdown);
+
+
+    input.addEventListener("input", () => {
+
+        const value = normalize(input.value);
+
+        dropdown.innerHTML = "";
+
+        if (!value) {
+            dropdown.style.display = "none";
+            return;
+        }
+
+
+        const matches = Object.keys(medications)
+            .filter(name => name.includes(value))
+            .slice(0, 8);
+
+
+        if (matches.length === 0) {
+            dropdown.style.display = "none";
+            return;
+        }
+
+
+        matches.forEach(name => {
+
+            const option =
+                document.createElement("div");
+
+            option.style.padding = "12px 14px";
+            option.style.cursor = "pointer";
+            option.style.borderBottom = "1px solid #eee";
+
+            option.innerHTML = `
+                <strong>${name}</strong>
+                <div style="
+                    font-size:12px;
+                    color:#777;
+                    margin-top:3px;
+                ">
+                    Active ingredient:
+                    ${medications[name].join(", ")}
+                </div>
+            `;
+
+
+            option.addEventListener("mouseenter", () => {
+                option.style.background = "#f5f5f5";
+            });
+
+            option.addEventListener("mouseleave", () => {
+                option.style.background = "#ffffff";
+            });
+
+
+            option.addEventListener("click", () => {
+
+                input.value = name;
+
+                dropdown.style.display = "none";
+
+                addItem();
+
+            });
+
+
+            dropdown.appendChild(option);
+
+        });
+
+
+        dropdown.style.display = "block";
+
+    });
+
+
+    document.addEventListener("click", event => {
+
+        if (
+            event.target !== input &&
+            !dropdown.contains(event.target)
+        ) {
+            dropdown.style.display = "none";
+        }
+
+    });
+
+}
+
+
+// --------------------------------------------------
 // ADD / REMOVE
 // --------------------------------------------------
 
 function addItem() {
 
     const input = document.getElementById("search");
+
     const value = normalize(input.value);
 
-    if (!value) {
-        return;
-    }
+    if (!value) return;
+
 
     if (!medications[value]) {
 
@@ -278,19 +393,25 @@ function addItem() {
         );
 
         input.value = "";
+
         return;
     }
 
+
     if (selected.includes(value)) {
+
         input.value = "";
+
         return;
     }
+
 
     selected.push(value);
 
     input.value = "";
 
     update();
+
 }
 
 
@@ -299,6 +420,7 @@ function removeItem(index) {
     selected.splice(index, 1);
 
     update();
+
 }
 
 
@@ -307,6 +429,7 @@ function clearAll() {
     selected = [];
 
     update();
+
 }
 
 
@@ -316,13 +439,18 @@ function clearAll() {
 
 function update() {
 
-    const chips = document.getElementById("chips");
+    const chips =
+        document.getElementById("chips");
+
     const ingredientsBox =
         document.getElementById("ingredients");
+
     const result =
         document.getElementById("result");
+
     const marker =
         document.getElementById("marker");
+
 
     chips.innerHTML = "";
 
@@ -347,7 +475,9 @@ function update() {
 
     // Active ingredients
 
-    const ingredients = getIngredients();
+    const ingredients =
+        getIngredients();
+
 
     if (ingredients.length === 0) {
 
@@ -366,14 +496,17 @@ function update() {
 
     if (selected.length < 2) {
 
-        result.className = "result";
+        result.className =
+            "result";
 
         result.innerHTML =
             "Add at least two medications to check for documented interaction warnings.";
 
-        marker.style.left = "94%";
+        marker.style.left =
+            "94%";
 
         return;
+
     }
 
 
@@ -388,9 +521,17 @@ function update() {
     const checkedPairs = new Set();
 
 
-    for (let i = 0; i < ingredients.length; i++) {
+    for (
+        let i = 0;
+        i < ingredients.length;
+        i++
+    ) {
 
-        for (let j = i + 1; j < ingredients.length; j++) {
+        for (
+            let j = i + 1;
+            j < ingredients.length;
+            j++
+        ) {
 
             const key =
                 getKey(
@@ -398,9 +539,11 @@ function update() {
                     ingredients[j]
                 );
 
+
             if (checkedPairs.has(key)) {
                 continue;
             }
+
 
             checkedPairs.add(key);
 
@@ -410,22 +553,28 @@ function update() {
                 const interaction =
                     interactions[key];
 
+
                 if (
                     interaction.level >
                     highestLevel
                 ) {
+
                     highestLevel =
                         interaction.level;
+
                 }
+
 
                 if (
                     !messages.includes(
                         interaction.message
                     )
                 ) {
+
                     messages.push(
                         interaction.message
                     );
+
                 }
 
             }
@@ -444,7 +593,9 @@ function update() {
         result.className =
             "result high";
 
+
         result.innerHTML = `
+
             <div class="warning">
                 ⚠️ HIGH CONCERN
             </div>
@@ -455,18 +606,25 @@ function update() {
             </p>
 
             ${messages
-                .map(message => `<p>${message}</p>`)
+                .map(
+                    message =>
+                        `<p>${message}</p>`
+                )
                 .join("")}
 
             <p class="small">
                 This checker is not a substitute for
                 a doctor or pharmacist.
             </p>
+
         `;
 
-        marker.style.left = "4%";
+
+        marker.style.left =
+            "4%";
 
         return;
+
     }
 
 
@@ -479,7 +637,9 @@ function update() {
         result.className =
             "result caution";
 
+
         result.innerHTML = `
+
             <h2>⚠️ CAUTION</h2>
 
             <p>
@@ -488,18 +648,25 @@ function update() {
             </p>
 
             ${messages
-                .map(message => `<p>${message}</p>`)
+                .map(
+                    message =>
+                        `<p>${message}</p>`
+                )
                 .join("")}
 
             <p class="small">
                 Ask a pharmacist or healthcare
                 professional about the combination.
             </p>
+
         `;
 
-        marker.style.left = "43%";
+
+        marker.style.left =
+            "43%";
 
         return;
+
     }
 
 
@@ -510,7 +677,9 @@ function update() {
     result.className =
         "result unknown";
 
+
     result.innerHTML = `
+
         <h2>❓ INSUFFICIENT DATA</h2>
 
         <p>
@@ -528,34 +697,47 @@ function update() {
             The database does not contain enough
             information to make a reliable determination.
         </p>
+
     `;
 
-    marker.style.left = "65%";
+
+    marker.style.left =
+        "65%";
+
 }
 
 
 // --------------------------------------------------
-// ENTER KEY SUPPORT
+// START APP
 // --------------------------------------------------
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-    const input =
-        document.getElementById("search");
+        const input =
+            document.getElementById("search");
 
-    if (input) {
 
-        input.addEventListener(
-            "keydown",
-            event => {
+        setupAutocomplete();
 
-                if (event.key === "Enter") {
-                    addItem();
+
+        if (input) {
+
+            input.addEventListener(
+                "keydown",
+                event => {
+
+                    if (event.key === "Enter") {
+
+                        addItem();
+
+                    }
+
                 }
+            );
 
-            }
-        );
+        }
 
     }
-
-});
+);
