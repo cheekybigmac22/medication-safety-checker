@@ -6,7 +6,6 @@
 
     <title>Medication Safety Checker</title>
 
-    <!-- Our separate CSS file -->
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -22,12 +21,20 @@
 
     <div class="card">
 
-        <input
-            id="search"
-            type="text"
-            placeholder="Try Tylenol, NyQuil, ibuprofen..."
-            autocomplete="off"
-        >
+        <!-- SEARCH AREA -->
+        <div class="search-container">
+
+            <input
+                id="search"
+                type="text"
+                placeholder="Try Tylenol, NyQuil, ibuprofen..."
+                autocomplete="off"
+            >
+
+            <!-- AUTOCOMPLETE LIST -->
+            <div id="autocomplete"></div>
+
+        </div>
 
         <button class="add-btn" onclick="addItem()">
             Add medication
@@ -81,10 +88,7 @@
 
         <h2>Active ingredients</h2>
 
-        <div
-            id="ingredients"
-            class="ingredients"
-        >
+        <div id="ingredients" class="ingredients">
             No medications selected.
         </div>
 
@@ -128,7 +132,6 @@
 </div>
 
 
-<!-- Our separate JavaScript file -->
 <script src="script.js"></script>
 
 </body>
