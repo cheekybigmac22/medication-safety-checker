@@ -19,9 +19,10 @@
         Check medications for documented interaction warnings.
     </p>
 
+
+    <!-- MEDICATION SEARCH -->
     <div class="card">
 
-        <!-- SEARCH AREA -->
         <div class="search-container">
 
             <input
@@ -31,24 +32,36 @@
                 autocomplete="off"
             >
 
-            <!-- AUTOCOMPLETE LIST -->
             <div id="autocomplete"></div>
 
         </div>
 
-        <button class="add-btn" onclick="addItem()">
+
+        <button
+            class="add-btn"
+            onclick="addItem()"
+        >
             Add medication
         </button>
 
-        <div id="chips" class="chips"></div>
 
-        <button class="clear-btn" onclick="clearAll()">
+        <div
+            id="chips"
+            class="chips"
+        ></div>
+
+
+        <button
+            class="clear-btn"
+            onclick="clearAll()"
+        >
             Clear all
         </button>
 
     </div>
 
 
+    <!-- RISK SPECTRUM -->
     <div class="card">
 
         <h2>Risk spectrum</h2>
@@ -63,14 +76,24 @@
 
         </div>
 
+
         <div class="labels">
+
             <span>HIGH CONCERN</span>
+
             <span>CAUTION</span>
+
             <span>INSUFFICIENT DATA</span>
+
             <span>NO DOCUMENTED INTERACTION</span>
+
         </div>
 
-        <div id="result" class="result">
+
+        <div
+            id="result"
+            class="result"
+        >
 
             <h3>Ready to check</h3>
 
@@ -84,17 +107,22 @@
     </div>
 
 
+    <!-- ACTIVE INGREDIENTS -->
     <div class="card">
 
         <h2>Active ingredients</h2>
 
-        <div id="ingredients" class="ingredients">
+        <div
+            id="ingredients"
+            class="ingredients"
+        >
             No medications selected.
         </div>
 
     </div>
 
 
+    <!-- EMERGENCY INFORMATION -->
     <div class="card emergency">
 
         <h2>⚠️ Emergency</h2>
@@ -113,11 +141,13 @@
     </div>
 
 
+    <!-- DISCLAIMER -->
     <div class="card">
 
         <p class="small">
 
             <strong>Important:</strong>
+
             This website is an educational prototype and is
             not a medical diagnosis or a substitute for a
             doctor or pharmacist.
@@ -132,6 +162,7 @@
 </div>
 
 
+<!-- JAVASCRIPT -->
 <script src="script.js"></script>
 
 </body>
